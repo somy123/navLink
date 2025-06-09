@@ -1,54 +1,32 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
-
-let values = {
-  email: "",
-  name: "",
-  phone: "",
-  address: "",
-};
+const allBrands = [
+  { id: "1", brandName: "puma" },
+  { id: "2", brandName: "adiddas" },
+  { id: "3", brandName: "nike" },
+  { id: "4", brandName: "reebok" },
+  { id: "5", brandName: "asian" },
+];
 
 function App() {
-  let [value, setValue] = useState(values);
-
-  // let admin=true;
-  // let arr =[{id:1,name:'somya'},{id:2,name:'mishra'},{id:3,name:'ishan'}]
-  const setName = (event) => {
-    setValue({ ...value, name: event.target.value });
-  };
-  const setEmail = (event) => {
-    setValue({ ...value, email: event.target.value });
-  };
-  const setPhone = (event) => {
-    setValue({ ...value, phone: event.target.value });
-  };
-  const setAddress = (event) => {
-    setValue({ ...value, address: event.target.value });
+  const [brands, setBrands] = useState(allBrands);
+  const onseachchange = (e) => {
+    const filterbrandNames =
+      brands.length > 0
+        ? brands.filter((brand) =>
+            brand.brandName.includes(e.target.value.toLowerCase())
+          )
+        : allBrands;
+    setBrands(filterbrandNames);
   };
   return (
-    <div className="App">
-      <div>
-        <label>Email</label>
-        <input placeholder="Enter your name" onChange={setEmail} />
-        {value.email}
-      </div>
-      <div>
-        <label>Name</label>
-        <input placeholder="Enter your city" onChange={setName} />
-        {value.name}
-      </div>
-      <div>
-        <label>phone</label>
-        <input placeholder="Enter your number" onChange={setPhone} />
-        {value.phone}
-      </div>
-      <div>
-        <label>address</label>
-        <input placeholder="Enter" onChange={setAddress} />
-        {value.address}
-      </div>
-    </div>
+    <>
+      <input onChange={onseachchange} placeholder="Search a brand" />
+      {brands.map((brand) => {
+        return <li key={brand.id}>{brand.brandName}</li>;
+      })}
+    </>
   );
 }
 
