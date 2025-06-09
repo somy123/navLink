@@ -2,30 +2,46 @@ import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
 const allBrands = [
-  { id: "1", brandName: "puma" },
-  { id: "2", brandName: "adiddas" },
-  { id: "3", brandName: "nike" },
-  { id: "4", brandName: "reebok" },
-  { id: "5", brandName: "asian" },
+  { id: "1", brandName: "puma",count:0 },
+  { id: "2", brandName: "adiddas",count:0 },
+  { id: "3", brandName: "nike", count:0},
+  { id: "4", brandName: "reebok", count:0},
+  { id: "5", brandName: "asian", count:0},
 ];
 
 function App() {
-  const [brands, setBrands] = useState(allBrands);
-  const onseachchange = (e) => {
-    const filterbrandNames =
-      brands.length > 0
-        ? brands.filter((brand) =>
-            brand.brandName.includes(e.target.value.toLowerCase())
-          )
-        : allBrands;
-    setBrands(filterbrandNames);
+  const [selectedBrand, setSelectedBrand] = useState([]);
+  const addToCartClicked = (id) => {
+    console.log("clicked", id);
+    const selecteditem = allBrands.find((item) => item.id === id);
+    setSelectedBrand([...selectedBrand, selecteditem]);
+  };
+  const onRemoveClicked = (id) => {
+    const filteredItems = selectedBrand.filter((item) => item.id !== id);
+    setSelectedBrand(filteredItems);
   };
   return (
     <>
-      <input onChange={onseachchange} placeholder="Search a brand" />
-      {brands.map((brand) => {
-        return <li key={brand.id}>{brand.brandName}</li>;
-      })}
+      <div>
+        {allBrands.map((brand) => (
+          <div key={brand.id}>
+            <span>{brand.brandName}</span>
+            <button onClick={() => addToCartClicked(brand.id)}>
+              Addtocart
+            </button>
+          </div>
+        ))}
+      </div>
+      <div>
+        <p>Your cart</p>
+        {selectedBrand &&
+          selectedBrand.map((brand) => (
+            <>
+              <p key={brand.id}>{brand.brandName}</p>
+              <button onClick={() => onRemoveClicked(brand.id)}>remove</button>
+            </>
+          ))}
+      </div>
     </>
   );
 }
