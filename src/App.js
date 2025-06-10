@@ -1,48 +1,59 @@
 import logo from "./logo.svg";
 import "./App.css";
+import { v4 as uuid } from "uuid";
 import { useState } from "react";
-const allBrands = [
-  { id: "1", brandName: "puma",count:0 },
-  { id: "2", brandName: "adiddas",count:0 },
-  { id: "3", brandName: "nike", count:0},
-  { id: "4", brandName: "reebok", count:0},
-  { id: "5", brandName: "asian", count:0},
-];
 
 function App() {
-  const [selectedBrand, setSelectedBrand] = useState([]);
-  const addToCartClicked = (id) => {
-    console.log("clicked", id);
-    const selecteditem = allBrands.find((item) => item.id === id);
-    setSelectedBrand([...selectedBrand, selecteditem]);
+  const [todo, setTodo] = useState("");
+  const [todoList, setTodoList] = useState([]);
+  const addTodoClick = () => {
+    setTodoList([...todoList, { id: uuid(), todo: todo, ischecked: false }]);
+    setTodo("");
   };
-  const onRemoveClicked = (id) => {
-    const filteredItems = selectedBrand.filter((item) => item.id !== id);
-    setSelectedBrand(filteredItems);
+  const onTodoInputChange = (e) => {
+    setTodo(e.target.value);
   };
+  const deleteClicked = (id) => {
+    const updatedtodoList = todoList.filter((todo) => todo.id !== id);
+    setTodoList(updatedtodoList);
+    console.log(id, todoList);
+  };
+  const todoCheck = (id) => {
+    const updatedtodoList = todoList.map((todo) =>
+      todo.id === id ? { ...todo, ischecked: !todo.ischecked } : todo
+    );
+    setTodoList(updatedtodoList);
+    console.log(todoList);
+  };
+
+  console.log(todoList);
   return (
-    <>
+    <div className="app">
+      <h1>My Wishlist</h1>
       <div>
-        {allBrands.map((brand) => (
-          <div key={brand.id}>
-            <span>{brand.brandName}</span>
-            <button onClick={() => addToCartClicked(brand.id)}>
-              Addtocart
-            </button>
-          </div>
-        ))}
+        <input
+          value={todo}
+          onChange={onTodoInputChange}
+          placeholder="Add your wishlist here..."
+        />
+        <button onClick={() => addTodoClick(todo.id)}>Add</button>
       </div>
       <div>
-        <p>Your cart</p>
-        {selectedBrand &&
-          selectedBrand.map((brand) => (
-            <>
-              <p key={brand.id}>{brand.brandName}</p>
-              <button onClick={() => onRemoveClicked(brand.id)}>remove</button>
-            </>
-          ))}
+        {todoList &&
+          todoList.length > 0 &&
+          todoList.map((todo) => {
+            return (
+              <div className={todo.ischecked ? "myclass" : ""} key={todo.id}>
+                <label>
+                  <input onChange={() => todoCheck(todo.id)} type="checkbox" />
+                  <span>{todo.todo}</span>
+                </label>
+                <button onClick={() => deleteClicked(todo.id)}>delete</button>
+              </div>
+            );
+          })}
       </div>
-    </>
+    </div>
   );
 }
 

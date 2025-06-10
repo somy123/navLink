@@ -1,6 +1,13 @@
-.odd{
-  background-color: aquamarine;
+.app{
+  display:flex;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+  height:100vh;
+  flex-direction: column;
+  background-color: #dfc4aa;
 }
-.even{
-  background-color: blanchedalmond;
+.myclass {
+  background-color: yellow !important;
+  border: 2px solid red !important;
 }
