@@ -1,33 +1,20 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { useState, useEffect, useReducer } from "react";
+import { Link, Routes, Route } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { Cart } from "./pages/Cart";
+import { About } from "./pages/About";
 
 function App() {
-  const initialState = {
-    count: 0,
-  };
-  const reducerFun = (state, action) => {
-    if (action.type === "INCREMENT") {
-      return {
-        state,
-        count: state.count + 1,
-      };
-    }
-    if (action.type === "DECREMENT") {
-      return {
-        state,
-        count: state.count - 1,
-      };
-    }
-    console.log(state, action);
-  };
-  const [state, dispatch] = useReducer(reducerFun, initialState);
-  console.log(state);
   return (
     <div className="app">
-      <h2>{state.count}</h2>
-      <button onClick={() => dispatch({ type: "INCREMENT" })}>Increment</button>
-      <button onClick={() => dispatch({ type: "DECREMENT" })}>Decrement</button>
+      <Link to="/">Home</Link>
+      <Link to="/cart">Cart</Link>
+      <Link to="/about">About</Link>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
     </div>
   );
 }
