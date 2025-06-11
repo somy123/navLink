@@ -1,5 +1,5 @@
 import "./App.css";
-import { Link, NavLink, Routes, Route } from "react-router-dom";
+import { Link,useNavigate, NavLink, Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Cart } from "./pages/Cart";
 import { About } from "./pages/About";
