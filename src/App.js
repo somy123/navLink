@@ -1,15 +1,27 @@
 import "./App.css";
-import { Link, Routes, Route } from "react-router-dom";
+import { Link, NavLink, Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Cart } from "./pages/Cart";
 import { About } from "./pages/About";
 
 function App() {
+  const getStyles = ({ isActive }) => {
+    return {
+      color: isActive ? "red" : "",
+      textDecoration: "none",
+    };
+  };
   return (
     <div className="app">
-      <Link to="/">Home</Link>
-      <Link to="/cart">Cart</Link>
-      <Link to="/about">About</Link>
+      <NavLink style={getStyles} to="/">
+        Home
+      </NavLink>
+      <NavLink style={getStyles} to="/cart">
+        Cart
+      </NavLink>
+      <NavLink style={getStyles} to="/about">
+        About
+      </NavLink>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
