@@ -1,40 +1,33 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 
 function App() {
-  const addresses = [
-    { city: "mumbai", pincode: "400029", isDefault: true },
-    { city: "Delhi", pincode: "400029", isDefault: false },
-    { city: "Chennai", pincode: "400090", isDefault: false },
-    { city: "Kolkata", pincode: "400095", isDefault: false },
-  ];
-  const [defaultAddress, setDefaultAddress] = useState(
-    addresses.find((item) => item.isDefault === true)
-  );
-  const [pincode, setPinCode] = useState("");
-  const onSetPinCodeClick = () => {
-    const selectedAddress = addresses.find(
-      (address) => address.pincode === pincode
-    );
-    setDefaultAddress(selectedAddress);
+  const initialState = {
+    count: 0,
   };
-  useEffect(() => {
-    console.log("useeffect called");
-  }, [defaultAddress.pincode]);
-  console.log(defaultAddress);
+  const reducerFun = (state, action) => {
+    if (action.type === "INCREMENT") {
+      return {
+        state,
+        count: state.count + 1,
+      };
+    }
+    if (action.type === "DECREMENT") {
+      return {
+        state,
+        count: state.count - 1,
+      };
+    }
+    console.log(state, action);
+  };
+  const [state, dispatch] = useReducer(reducerFun, initialState);
+  console.log(state);
   return (
     <div className="app">
-      <h2>Dependancy Mistakes in useeffect hook</h2>
-      <div>
-        <input
-          onChange={(e) => setPinCode(e.target.value)}
-          placeholder="enter pincode"
-        />
-      </div>
-      <div>
-        <button onClick={onSetPinCodeClick}>set pincode</button>
-      </div>
+      <h2>{state.count}</h2>
+      <button onClick={() => dispatch({ type: "INCREMENT" })}>Increment</button>
+      <button onClick={() => dispatch({ type: "DECREMENT" })}>Decrement</button>
     </div>
   );
 }
